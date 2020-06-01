@@ -43,6 +43,7 @@ void ESP32Servo_create(gpio_num_t pin, unsigned int minuS, unsigned int maxuS, l
 	servo=malloc(sizeof(ESP32Servo));
 	servo->_min = minuS;
 	servo->_max = maxuS;
+	servo->_freqHz = 50;
 	servo->_ledcChannel = ledcChannel;
 
 	ledc_timer_config_t timer_conf;
@@ -63,8 +64,9 @@ void ESP32Servo_create(gpio_num_t pin, unsigned int minuS, unsigned int maxuS, l
 	return (servo);
 }
 
-void ESP32Servo_detach(ESP32Servo *servo){
+void ESP32Servo_free(ESP32Servo *servo){
 	ledc_stop(LEDC_HIGH_SPEED_MODE, servo->_ledcChannel, 0);
+	free(servo);
 }
 
 void ESP32Servo_writeMicroSeconds(ESP32Servo *servo, unsigned int uS){
