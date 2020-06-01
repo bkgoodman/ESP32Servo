@@ -29,21 +29,15 @@ SOFTWARE.
 #include <freertos/task.h>
 #include <driver/ledc.h>
 
-class servoControl{
-	protected:
-	const int _freqHz = 50;
-
+typedef struct ESP32Servo_s {
+	int _freqHz = 50;
 	ledc_channel_t _ledcChannel;
 	unsigned int _min;
 	unsigned int _max;
-	
-	double getDutyByPercentage(double percentage);
-	double getDutyByuS(double uS);
+} *ESP32Servo;
 
-	public:
-	void attach(gpio_num_t pin, unsigned int minuS = 400, unsigned int maxuS = 2600, ledc_channel_t ledcChannel = LEDC_CHANNEL_0, ledc_timer_t ledcTimer = LEDC_TIMER_0);
-	void writeMicroSeconds(unsigned int uS);
-	void write(unsigned int value);
-	void detach();
-};
+ESP32Servo *ESP32Servo_create(gpio_num_t pin, unsigned int minuS = 400, unsigned int maxuS = 2600, ledc_channel_t ledcChannel = LEDC_CHANNEL_0, ledc_timer_t ledcTimer = LEDC_TIMER_0);
+void ESP32Servo_writeMicroSeconds(ESP32Servo *servo, unsigned int uS);
+void ESP32Servo_write(ESP32Servo *servo, unsigned int value);
+void ESP32Servo_free(ESP32Servo *servo);
 #endif
