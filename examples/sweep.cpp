@@ -27,22 +27,22 @@ SOFTWARE.
 #include "servoControl.h"
 
 
-extern "C" void app_main(){
-	servoControl myServo;
-	myServo.attach(GPIO_NUM_23);
+void app_main(){
+	ESP32Servo *myServo;
+	myServo = ESP32Servo_create(GPIO_NUM_23);
 	//Defaults: myServo.attach(pin, 400, 2600, LEDC_CHANNEL_0, LEDC_TIMER0);
 	// to use more servo set a valid ledc channel and timer
 	
-	myServo.write(0);
+	ESP32Servo_write(myServo,0);
 	vTaskDelay(1000 / portTICK_RATE_MS);
 	
 	while (1){
 		for (int i = 0; i<180; i++){
-			myServo.write(i);
+			ESP32Servo_write((myServo,i);
 			vTaskDelay(10 / portTICK_RATE_MS);
 		}
 		for (int i = 180; i>0; i--){
-			myServo.write(i);
+			ESP32Servo_write((myServo,i);
 			vTaskDelay(10 / portTICK_RATE_MS);
 		}
 	}
