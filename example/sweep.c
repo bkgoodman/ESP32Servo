@@ -29,7 +29,7 @@ SOFTWARE.
 
 void app_main(){
 	ESP32Servo *myServo;
-	myServo = ESP32Servo_create(GPIO_NUM_23);
+	myServo = ESP32Servo_create(GPIO_NUM_23,400,2600,LEDC_CHANNEL_0,LEDC_TIMER_0);
 	//Defaults: myServo.attach(pin, 400, 2600, LEDC_CHANNEL_0, LEDC_TIMER0);
 	// to use more servo set a valid ledc channel and timer
 	
@@ -38,11 +38,11 @@ void app_main(){
 	
 	while (1){
 		for (int i = 0; i<180; i++){
-			ESP32Servo_write((myServo,i);
+			ESP32Servo_write(myServo,i);
 			vTaskDelay(10 / portTICK_RATE_MS);
 		}
 		for (int i = 180; i>0; i--){
-			ESP32Servo_write((myServo,i);
+			ESP32Servo_write(myServo,i);
 			vTaskDelay(10 / portTICK_RATE_MS);
 		}
 	}

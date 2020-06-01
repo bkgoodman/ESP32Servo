@@ -1,4 +1,7 @@
-set(COMPONENT_ADD_INCLUDEDIRS "src")
-set(COMPONENT_SRCDIRS "src")
-register_component()
-
+#cmake_minimum_required(VERSION 3.5)
+#include($ENV{IDF_PATH}/tools/cmake/project.cmake)
+#project(esp32_servo_example)
+#set(COMPONENT_ADD_INCLUDEDIRS "src")
+#set(COMPONENT_SRCDIRS "src")
+#register_component()
+idf_component_register(SRCS "src/servoControl.c" INCLUDE_DIRS "src")

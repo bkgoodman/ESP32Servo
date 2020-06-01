@@ -24,7 +24,7 @@ SOFTWARE.
 
 #include "servoControl.h"
 
-double ESP32Servo_getDutyByPercentage(ESP32Servo *servo, double percentage){
+double ESP32Servo_getDutyByPercentage(double percentage){
 	if (percentage <= 0){
 		return 0;
 	}
@@ -35,10 +35,10 @@ double ESP32Servo_getDutyByPercentage(ESP32Servo *servo, double percentage){
 }
 
 double ESP32Servo_getDutyByuS(ESP32Servo *servo, double uS){
-	return ESP32Servo_getDutyByPercentage(((servo->uS * 100.0)/(1000000/servo->_freqHz)));
+	return ESP32Servo_getDutyByPercentage(((uS * 100.0)/(1000000/servo->_freqHz)));
 }
 
-void ESP32Servo_create(gpio_num_t pin, unsigned int minuS, unsigned int maxuS, ledc_channel_t ledcChannel, ledc_timer_t ledcTimer){
+ESP32Servo *ESP32Servo_create(gpio_num_t pin, unsigned int minuS, unsigned int maxuS, ledc_channel_t ledcChannel, ledc_timer_t ledcTimer){
 	ESP32Servo *servo;
 	servo=malloc(sizeof(ESP32Servo));
 	servo->_min = minuS;
@@ -70,13 +70,13 @@ void ESP32Servo_free(ESP32Servo *servo){
 }
 
 void ESP32Servo_writeMicroSeconds(ESP32Servo *servo, unsigned int uS){
-	ledc_set_duty(LEDC_HIGH_SPEED_MODE, servo->_ledcChannel, ESP32Servo_getDutyByuS(uS));
+	ledc_set_duty(LEDC_HIGH_SPEED_MODE, servo->_ledcChannel, ESP32Servo_getDutyByuS(servo,uS));
 	ledc_update_duty(LEDC_HIGH_SPEED_MODE, servo->_ledcChannel);
 }
 
 void ESP32Servo_write(ESP32Servo *servo, unsigned int value) {
 	// 0 = MinServoAngle ; 180 = Max ServoAngle;
-	int scale = (servo->value - 0) * (servo->_max - servo->_min) / (180 - 0) + servo->_min;
+	int scale = (value - 0) * (servo->_max - servo->_min) / (180 - 0) + servo->_min;
 	ESP32Servo_writeMicroSeconds(servo,scale);
 }
 

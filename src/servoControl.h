@@ -30,13 +30,13 @@ SOFTWARE.
 #include <driver/ledc.h>
 
 typedef struct ESP32Servo_s {
-	int _freqHz = 50;
+	int _freqHz;
 	ledc_channel_t _ledcChannel;
 	unsigned int _min;
 	unsigned int _max;
-} *ESP32Servo;
+} ESP32Servo;
 
-ESP32Servo *ESP32Servo_create(gpio_num_t pin, unsigned int minuS = 400, unsigned int maxuS = 2600, ledc_channel_t ledcChannel = LEDC_CHANNEL_0, ledc_timer_t ledcTimer = LEDC_TIMER_0);
+ESP32Servo *ESP32Servo_create(gpio_num_t pin, unsigned int minuS, unsigned int maxuS, ledc_channel_t ledcChannel, ledc_timer_t ledcTimer);
 void ESP32Servo_writeMicroSeconds(ESP32Servo *servo, unsigned int uS);
 void ESP32Servo_write(ESP32Servo *servo, unsigned int value);
 void ESP32Servo_free(ESP32Servo *servo);
