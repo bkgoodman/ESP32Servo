@@ -51,6 +51,7 @@ ESP32Servo *ESP32Servo_create(gpio_num_t pin, unsigned int minuS, unsigned int m
 	timer_conf.freq_hz    		= servo->_freqHz;
 	timer_conf.speed_mode 		= LEDC_HIGH_SPEED_MODE;
 	timer_conf.timer_num  		= ledcTimer;
+	timer_conf.clk_cfg = LEDC_AUTO_CLK;
 	ledc_timer_config(&timer_conf);
 
 	ledc_channel_config_t ledc_conf;
@@ -60,6 +61,7 @@ ESP32Servo *ESP32Servo_create(gpio_num_t pin, unsigned int minuS, unsigned int m
 	ledc_conf.intr_type		= LEDC_INTR_DISABLE;
 	ledc_conf.speed_mode	= LEDC_HIGH_SPEED_MODE;
 	ledc_conf.timer_sel		= ledcTimer;
+	ledc_conf.hpoint=0;
 	ledc_channel_config(&ledc_conf);
 	return (servo);
 }
